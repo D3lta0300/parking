@@ -6,7 +6,7 @@ int main(){
     printf("Bienvenue dans mon super programme de PARKING !!!\n");
     int nbVoiture = 16;
     int nbEtage = 3;
-    int nbPlacesEtages = 43;
+    int nbPlacesEtages = 43; 
     int parking[nbEtage][nbPlacesEtages];
 
     const char* entrer = "Entrer";
@@ -29,10 +29,8 @@ int main(){
             nbVoiture--;
         } else {
             printf("C'est au CP qu'on apprend à écrire, recommence.\n\n");
-        }
-
-        printf("hello world");
-        printf("commit de chez omar");
+        };
+//Test
     }   
     
     return 0;
