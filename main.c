@@ -28,6 +28,8 @@ int main(){
             printf("C'est au CP qu'on apprend à écrire, recommence.\n\n");
         }
 
+        printf("hello world");
+
     }
     
     return 0;
