@@ -8,15 +8,18 @@ int main(){
     int nbEtage = 3;
     int nbPlacesEtages = 43;
     int parking[nbEtage][nbPlacesEtages];
+
+    const char* entrer = "Entrer";
+    const char* sortir = "Sortir";
+    char reponse[40];
+
+
     while (1==1) {
         printf("Mon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.", nbEtage*nbPlacesEtages, nbVoiture);
         printf("Que souhaitez vous faire ? 'Entrer' ou 'Sortir' ? \n");
 
-        char reponse[40];
         scanf("%s", reponse);
 
-        const char* entrer = "Entrer";
-        const char* sortir = "Sortir";
 
         if (strncmp(entrer,reponse,6)==0){
             printf("Oh nan, une voiture s'ajoute dans le parking...\n\n");
@@ -30,7 +33,6 @@ int main(){
 
         printf("hello world");
         printf("commit de chez omar");
-//Test
     }   
     
     return 0;
