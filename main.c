@@ -6,7 +6,7 @@ int main(){
     printf("Bienvenue dans mon super programme de PARKING !!!\n");
     int nbVoiture = 16;
     int nbEtage = 3;
-    int nbPlacesEtages = 43;
+    int nbPlacesEtages = 43; 
     int parking[nbEtage][nbPlacesEtages];
     while (1==1) {
         printf("Mon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.", nbEtage*nbPlacesEtages, nbVoiture);
@@ -26,10 +26,7 @@ int main(){
             nbVoiture--;
         } else {
             printf("C'est au CP qu'on apprend à écrire, recommence.\n\n");
-        }
-
-        printf("hello world");
-        printf("commit de chez omar");
+        };
 //Test
     }   
     
