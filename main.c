@@ -30,7 +30,7 @@ int main(){
 
         printf("hello world");
         printf("commit de chez omar");
-//Teswwtfygfghhuljkjklbjklbjklbn
+//Test
     }   
     
     return 0;
