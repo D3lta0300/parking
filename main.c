@@ -19,20 +19,22 @@ void initialiseParking(Voiture *pParking, int nbEtage, int nbPlacesEtages, int n
     for (int i = 0;i<nbEtage;i++){
         for (int j = 0; j<nbPlacesEtages; j++){
             if (k<nbVoiture){
-                struct Voiture initialisatrice;
+                Voiture initialisatrice;
                 strcpy(initialisatrice.immatriculation,"00-000-00");
                 strcpy(initialisatrice.marque, "Tesla");
                 pParking[i,j] = initialisatrice;
+                printf("added\n");
             }
             k++;
         }
     }
 }
 
-void afficheParking(Voiture parking[], int nbEtage, int nbPlacesEtages){
-    for (int i = 0;i<nbEtage;i++){
-        for (int j = 0; j<nbPlacesEtages; j++){
-            afficheVoiture(parking[i,j]);
+void afficheParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEtages]){
+    printf("Affichage en cours\n");
+    for (int i = 1;i<=nbEtage;i++){
+        for (int j = 1; j<=nbPlacesEtages; j++){
+            afficheVoiture(parking[i][j]);
             printf(" | ");
         }
         printf("\n");
@@ -42,9 +44,9 @@ void afficheParking(Voiture parking[], int nbEtage, int nbPlacesEtages){
 
 int main(){
     printf("Bienvenue dans mon super programme de PARKING !!!\n");
-    int nbVoiture = 16;
-    int nbEtage = 3;
-    int nbPlacesEtages = 43;
+    int nbVoiture = 4;
+    int nbEtage = 2;
+    int nbPlacesEtages = 3;
     Voiture parking[nbEtage][nbPlacesEtages];
     while (1==1) {
         printf("Mon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.", nbEtage*nbPlacesEtages, nbVoiture);
@@ -69,7 +71,7 @@ int main(){
             initialiseParking(parking, nbEtage,nbPlacesEtages, nbVoiture);
             printf(" terminée ! \n\n");
         } else if (strncmp(afficher,reponse,6)==0){
-            afficheParking(parking, nbEtage, nbPlacesEtages);
+            afficheParking(nbEtage, nbPlacesEtages, parking);
         } else {
             printf("C'est au CP qu'on apprend à écrire, recommence.\n\n");
         }
@@ -77,4 +79,4 @@ int main(){
     }
     return 0;
 
-} 
+}
