@@ -1,28 +1,40 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 
-void afficheMatrice(int lignes, int colonnes, int matrice[][colonnes]){
-    for (int i = 0; i<lignes; i++){
-        for(int j = 0; j<colonnes; j++){
-            printf("%d ", matrice[i][j]);
+void addOneToMatrix(int n, int l, int matrix[][l]) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < l; ++j) {
+            matrix[i][j] += 1;
+        }
+    }
+}
+
+void printMatrix(int n, int l, int matrix[][l]) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < l; ++j) {
+            printf("%d\t", matrix[i][j]);
         }
         printf("\n");
     }
 }
 
-int main(){
-    int lignes = 3;
-    int colonnes = 4;
-    int tableau[lignes][colonnes];
-    for (int i = 0; i<3; i++){
-        for(int j = 0; j<4; j++){
-            tableau[i][j]= i+j;
-        }
-    }
+int main() {
+    // Example usage
+    int n = 3; // Number of rows
+    int l = 4; // Number of columns
 
-    afficheMatrice(lignes,colonnes,tableau);
+    int myMatrix[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12}
+    };
+
+    printf("Original Matrix:\n");
+    printMatrix(n, l, myMatrix);
+
+    addOneToMatrix(n, l, myMatrix);
+
+    printf("\nMatrix after adding one to each element:\n");
+    printMatrix(n, l, myMatrix);
 
     return 0;
 }
