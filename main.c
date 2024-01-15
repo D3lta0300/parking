@@ -94,7 +94,7 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
         printf("\nÀ quelle place souhaitez vous vous garer ?");
         scanf("%d",&place);
 
-        if(!strncmp(parking[etage][place].immatriculation," ",1)){
+        if(strncmp(parking[etage][place].immatriculation," ",1)){
             printf("\nCette place est déjà prise, vous n'allez quand même pas écraser cette pauvre voiture ?\nReccomence.\n");
         } else {
             printf("\nLa voie est libre, fonce Alfons !");
@@ -168,5 +168,3 @@ int main(){
     }
     return 0;
 }
-
-//Hello world
