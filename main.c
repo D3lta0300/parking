@@ -40,14 +40,6 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture p
                 initialisatrice.place=j;
                 pParking[i][j] = initialisatrice;
                 printf("added\n");
-            } else {
-                Voiture initialisatrice;
-                strcpy(initialisatrice.immatriculation," ");
-                strcpy(initialisatrice.marque, " ");
-                initialisatrice.etage=i;
-                initialisatrice.place=j;
-                pParking[i][j] = initialisatrice;
-                printf("added\n");
             }
             k++;
         }
