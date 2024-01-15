@@ -146,6 +146,7 @@ int main(){
 
         if (strncmp(entrer,reponse,3)==0){
             
+            
             ajouteVoiture(nbEtage,nbPlacesEtages,parking);
             printf("\nOh nan, une voiture s'ajoute dans le parking...\n\n");
             nbVoiture++;
