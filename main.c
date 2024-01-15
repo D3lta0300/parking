@@ -83,15 +83,26 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
 
 void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEtages]){
 
-    printf("\n\nÀ quelle étage souhaitez vous vous garer ?");
+    bool isPlaceOk = false;
     int etage;
-    scanf("%d",&etage);
-
-    printf("\nÀ quelle place souhaitez vous vous garer ?");
     int place;
-    scanf("%d",&place);
 
-    printf("Vous allez vous garer à la place %d, etage %d",place,etage);
+    while(!isPlaceOk){
+        printf("\n\nÀ quelle étage souhaitez vous vous garer ?");
+        scanf("%d",&etage);
+
+        printf("\nÀ quelle place souhaitez vous vous garer ?");
+        scanf("%d",&place);
+
+        if(!strncmp(parking[etage][place].immatriculation," ",1)){
+            printf("\nCette place est déjà prise, vous n'allez quand même pas écraser cette pauvre voiture ?\nReccomence.\n");
+        } else {
+            printf("\nLa voie est libre, fonce Alfons !");
+            isPlaceOk = true;
+        }
+    }
+
+    
 
     printf("\nQuel est la marque de votre voiture ?");
     char marque[50];
@@ -134,6 +145,7 @@ int main(){
         const char* afficher = "Afficher";
 
         if (strncmp(entrer,reponse,3)==0){
+            
             ajouteVoiture(nbEtage,nbPlacesEtages,parking);
             printf("\nOh nan, une voiture s'ajoute dans le parking...\n\n");
             nbVoiture++;
