@@ -20,37 +20,31 @@ void afficheVoiture(Voiture voiture){
     printf("La %s immatriculée %s est garée place %d, étage %d", voiture.marque, voiture.immatriculation, voiture.place, voiture.etage);
 }
 
-void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture pParking[][nbPlacesEtages]){
+void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *pParking){
+    Voiture initialisatrice;
     int k = 0;
     for (int i = 0;i<nbEtage;i++){
         for (int j = 0; j<nbPlacesEtages; j++){
+            initialisatrice.etage=i;
+            initialisatrice.place=j;
             if (k<nbVoiture){
-                Voiture initialisatrice;
                 strcpy(initialisatrice.immatriculation,"00-000-00");
                 strcpy(initialisatrice.marque, "Tesla");
-                initialisatrice.etage=i;
-                initialisatrice.place=j;
-                pParking[i][j] = initialisatrice;
-                printf("added\n");
             } else {
-                Voiture initialisatrice;
                 strcpy(initialisatrice.immatriculation," ");
                 strcpy(initialisatrice.marque, " ");
-                initialisatrice.etage=i;
-                initialisatrice.place=j;
-                pParking[i][j] = initialisatrice;
-                printf("added\n");
             }
+            *(pParking+i*nbPlacesEtages+j) = initialisatrice;
             k++;
         }
     }
 }
 
-void afficheParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEtages]){
+void afficheParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     printf("\nAffichage en cours\n");
     for (int i = 0;i<nbEtage;i++){
         for (int j = 0; j<nbPlacesEtages; j++){
-            condenseVoiture(parking[i][j]);
+            condenseVoiture(*(pParking+i*nbPlacesEtages+j));
             printf(" | ");
         }
         printf("\n");
@@ -58,7 +52,7 @@ void afficheParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesE
 }
 
 
-void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEtages]){
+void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     printf("\n\nÀ quel étage êtes vous garé ? ");
     int etage;
     scanf("%d",&etage);
@@ -67,7 +61,7 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
     int place;
     scanf("%d",&place);
 
-    if(strncmp(parking[etage][place].immatriculation, " ",1)==0){
+    if(strncmp((*(pParking+etage*nbPlacesEtages+place)).immatriculation, " ",1)==0){
         printf("\nIl n'y a pas de voiture ici. Êtes vous un fantôme ?");
     } else {
         Voiture initialisatrice;
@@ -75,13 +69,14 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
         strcpy(initialisatrice.marque, " ");
         initialisatrice.etage=etage;
         initialisatrice.place=place;
-        parking[etage][place] = initialisatrice;
+        
+        *(pParking+etage*nbPlacesEtages+place) = initialisatrice;
         printf("deleted\n");
     }
 }
 
 
-void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEtages]){
+void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
 
     bool isPlaceOk = false;
     int etage;
@@ -89,14 +84,12 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
 
     while(!isPlaceOk){
         printf("\n\nÀ quelle étage souhaitez vous vous garer ?");
-        scanf("%d",&place);
-
-    printf("Vous allez vous garer à la place %d, etage %d",place,etage);
+        scanf("%d",&etage);
 
         printf("\nÀ quelle place souhaitez vous vous garer ?");
         scanf("%d",&place);
 
-        if(strncmp(parking[etage][place].immatriculation," ",1)){
+        if(strncmp((*(pParking+etage*nbPlacesEtages+place)).immatriculation," ",1)){
             printf("\nCette place est déjà prise, vous n'allez quand même pas écraser cette pauvre voiture ?\nReccomence.\n");
         } else {
             printf("\nLa voie est libre, fonce Alfons !");
@@ -117,21 +110,12 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture parking[][nbPlacesEt
     Voiture nouvelle;
     strcpy(nouvelle.immatriculation,immatriculation);
     strcpy(nouvelle.marque, marque);
-    strcpy(nouvelle.immatriculation,immatriculation);
-    strcpy(nouvelle.marque, marque);
     nouvelle.etage=etage;
     nouvelle.place=place;
 
-    afficheVoiture(nouvelle);
+    *(pParking+etage*nbPlacesEtages+place) = nouvelle;
 
-
-    afficheVoiture(nouvelle);
-
-    parking[etage][place] = nouvelle;
-
-    afficheParking(nbEtage,nbPlacesEtages,parking);
-
-    afficheParking(nbEtage,nbPlacesEtages,parking);
+    afficheParking(nbEtage,nbPlacesEtages, pParking);
 }
 
 
@@ -178,4 +162,4 @@ int main(){
 
     }
     return 0;
-}// String compare pour verifier si la place qu'on demande est deja prise ou non
+}
