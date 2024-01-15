@@ -111,9 +111,12 @@ int main(){
 
 
         if (strncmp(entrer,reponse,3)==0){
-            ajouteVoiture(nbEtage,nbPlacesEtages,parking);
-            printf("\nOh nan, une voiture s'ajoute dans le parking...\n\n");
-            nbVoiture++;
+            if (nbVoiture >= nbEtage * nbPlacesEtages) {
+                printf("Désolé, mais mon super parking est plein. Revenez plus tard.\n");}
+            else {
+                ajouteVoiture(nbEtage, nbPlacesEtages, parking);
+                printf("\nOh non, une voiture s'ajoute dans le parking...\n\n");
+                nbVoiture++;}
         } else if (strncmp(sortir,reponse,3)==0){
             printf("Ouiii, je m'alège!!!\n\n");
             nbVoiture--;
