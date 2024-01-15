@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void addOneToMatrix(int n, int l, int matrix[][l]) {
+void addOneToMatrix(int n, int l, int *matrix[][l]) {
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < l; ++j) {
             matrix[i][j] += 1;
@@ -8,7 +8,7 @@ void addOneToMatrix(int n, int l, int matrix[][l]) {
     }
 }
 
-void printMatrix(int n, int l, int matrix[][l]) {
+void printMatrix(int n, int l, int *matrix[][l]) {
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < l; ++j) {
             printf("%d\t", matrix[i][j]);
