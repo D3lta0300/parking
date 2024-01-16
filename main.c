@@ -15,7 +15,7 @@ struct Voiture {
 typedef struct Voiture Voiture;
 
 
-
+//Permet d'afficher une voiture de façon condensé.
 void condenseVoiture(Voiture voiture){
     int length;
     length = strlen(voiture.marque);
@@ -27,15 +27,13 @@ void condenseVoiture(Voiture voiture){
 }
 
 
-
-
-
+//Affiche les détails d'une voiture.
 void afficheVoiture(Voiture voiture) {
     printf("La %s immatriculée %s est garée place %d, étage %d", voiture.marque, voiture.immatriculation, voiture.place, voiture.etage);
 }
 
 
-
+//Initialise le parking avec un certain nombre de voiture.
 void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *pParking){
     Voiture initialisatrice;
     int k = 0;
@@ -43,6 +41,12 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *
         for (int j = 0; j<nbPlacesEtages; j++){
             initialisatrice.etage=i;
             initialisatrice.place=j;
+
+            
+            time_t maintenant;
+            time(&maintenant);
+            initialisatrice.entree = maintenant;
+
             if (k<nbVoiture){
                 strcpy(initialisatrice.immatriculation,"00-000-00");
                 strcpy(initialisatrice.marque, "Tesla");
@@ -57,6 +61,7 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *
 }
 
 
+//Affiche le parking d'une façon lisible pour l'utilisateur.
 void afficheParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     printf("\n\nAffichage en cours\nÉtage =");
 
@@ -84,6 +89,8 @@ void afficheParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
 }
 
 
+
+//Supprime une voiture du parking.
 void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     printf("\n\nÀ quel étage êtes vous garé ? ");
     int etage;
@@ -99,7 +106,7 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
         time_t maintenant;
         time(&maintenant);
 
-        double duree = (double) difftime(maintenant, parking[etage][place].entree);
+        double duree = (double) difftime(maintenant, (*(pParking+etage*nbPlacesEtages+place)).entree);
         double paye = duree * (1./60.);
         printf("La voiture est restée dans le parking pendant %.2f secondes et doit payer %2f €.\n", duree, paye);
 
@@ -116,6 +123,8 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
 }
 
 
+
+//Ajoute une voiture créée par l'utilisateur dans le parking.
 void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
 
     bool isPlaceOk = false;
@@ -161,6 +170,8 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     afficheParking(nbEtage,nbPlacesEtages, pParking);
 }
 
+
+//Main. C'est ici que sont organisées toutes les fonctions.
 int main() {
     printf("Bienvenue dans mon super programme de PARKING !!!\n");
     int nbVoiture = 9;
@@ -203,4 +214,4 @@ int main() {
         }
     }
     return 0;
-}// String compare pour verifier si la place qu'on demande est deja prise ou non
+}
