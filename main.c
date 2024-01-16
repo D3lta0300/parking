@@ -42,7 +42,7 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *
             initialisatrice.etage=i;
             initialisatrice.place=j;
 
-            
+
             time_t maintenant;
             time(&maintenant);
             initialisatrice.entree = maintenant;
@@ -63,7 +63,7 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *
 
 //Affiche le parking d'une façon lisible pour l'utilisateur.
 void afficheParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
-    printf("\n\nAffichage en cours\nÉtage =");
+    printf("\n\nÉtage =");
 
     for (int j = nbPlacesEtages; j>=1; j--){
         printf("=======================");
@@ -118,8 +118,36 @@ void sortDuParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
         initialisatrice.entree = 0;
         
         *(pParking+etage*nbPlacesEtages+place) = initialisatrice;
-        printf("place libérée\n");
+        printf("Place libérée.");
     }
+}
+
+
+
+//Place la voiture à la meilleure place.
+void gareVoitureAuMeilleurEndroit(int nbEtage, int nbPlacesEtages, Voiture *pParking, Voiture voiture){
+    char reponse[4];
+    for (int i = 0;i<nbEtage;i++){
+        printf("\nBienvenue à l'étage n°%d",i);
+        for (int j = 0; j<nbPlacesEtages; j++){
+            if(!strncmp((*(pParking+i*nbPlacesEtages+j)).immatriculation, " ",1)){
+                printf("\nSouhaitez vous vous garer à la place numéro %d ? (Oui/Non) ",j);
+                scanf("%s",reponse);
+                if(!strncmp(reponse, "Oui",1)){
+                    *(pParking+i*nbPlacesEtages+j) = voiture;
+                    printf("\nVous êtes garé.");
+                    j=nbPlacesEtages;
+                    i = nbEtage;
+                } else if (!strncmp(reponse, "Non",1)){
+                    printf("\nD'accord, nous allons vous proposer une nouvelle place.");
+                } else {
+                    printf("\nApprenez à écrire. Pour la peine, vous irez à une place suivante.");
+                }
+            }
+        }
+        printf("\nIl n'y a plus de places à cette étage...");
+    }
+    printf("\nDésolé, il n'y a plus de places dans le parking...");
 }
 
 
@@ -130,22 +158,6 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     bool isPlaceOk = false;
     int etage;
     int place;
-
-    while(!isPlaceOk){
-        printf("\n\nÀ quelle étage souhaitez vous vous garer ?");
-        scanf("%d",&etage);
-
-        printf("\nÀ quelle place souhaitez-vous vous garer ? ");
-        scanf("%d", &place);
-
-        if(strncmp((*(pParking+etage*nbPlacesEtages+place)).immatriculation," ",1)){
-            printf("\nCette place est déjà prise, vous n'allez quand même pas écraser cette pauvre voiture ?\nReccomence.\n");
-        } else {
-            printf("\nLa voie est libre, fonce Alfons !");
-            isPlaceOk = true;
-        }
-    }
-
 
     printf("\nQuel est la marque de votre voiture ?");
     char marque[50];
@@ -165,7 +177,7 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
     nouvelle.place = place;
     nouvelle.entree = maintenant;  // Enregistrement du temps d'entrée
 
-    *(pParking+etage*nbPlacesEtages+place) = nouvelle;
+    gareVoitureAuMeilleurEndroit(nbEtage,nbPlacesEtages,pParking,nouvelle);
 
     afficheParking(nbEtage,nbPlacesEtages, pParking);
 }
@@ -178,39 +190,43 @@ int main() {
     int nbEtage = 3;
     int nbPlacesEtages = 5;
     Voiture parking[nbEtage][nbPlacesEtages];
+
+    initialiseParking(nbEtage, nbPlacesEtages, nbVoiture, parking);
+
     while (1 == 1) {
-        printf("\nMon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.", nbEtage * nbPlacesEtages, nbVoiture);
-        printf("\nQue souhaitez-vous faire ? 'Entrer', 'Sortir', 'Initialiser' ou 'Afficher' ? \n");
+        printf("\nMon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.\n", nbEtage * nbPlacesEtages, nbVoiture);
+
+        if (nbVoiture >= nbEtage * nbPlacesEtages) {
+            printf("\nLa BARRIÈRE est fermée.");
+        } else {
+            printf("\nLa BARRIÈRE est ouverte.");
+        }
+        
+        afficheParking(nbEtage,nbPlacesEtages,parking);
+        
+        printf("\n\nQue souhaitez-vous faire ? 'Entrer' ou 'Sortir' ? \n");
 
         char reponse[40];
         scanf("%s", reponse);
 
         const char* entrer = "Entrer";
         const char* sortir = "Sortir";
-        const char* initialiser = "Initialiser";
-        const char* afficher = "Afficher";
+
 
         if (strncmp(entrer, reponse, 3) == 0) {
             if (nbVoiture >= nbEtage * nbPlacesEtages) {
-                printf("Désolé, mais mon super parking est plein. Revenez plus tard.\n");
+                printf("\nDésolé, mais mon super parking est plein. La BARRIÈRE est fermée.\n");
             } else {
                 ajouteVoiture(nbEtage, nbPlacesEtages, parking);
-                printf("\nOh non, une voiture s'ajoute dans le parking...\n\n");
+                printf("\nOh non, une voiture s'ajoute dans le parking...\n");
                 nbVoiture++;
             }
         } else if (strncmp(sortir, reponse, 3) == 0) {
             sortDuParking(nbEtage, nbPlacesEtages, parking);
-            printf("Ouiii, je m'alège!!!\n\n");
+            printf("\n[Parking] Ouiii, je m'alège!!!\n\n");
             nbVoiture--;
-        } else if (strncmp(initialiser, reponse, 3) == 0) {
-            printf("Initialisation du parking ...");
-            initialiseParking(nbEtage, nbPlacesEtages, nbVoiture, parking);
-            printf(" terminée ! \n\n");
-            afficheVoiture(parking[0][1]);
-        } else if (strncmp(afficher, reponse, 3) == 0) {
-            afficheParking(nbEtage, nbPlacesEtages, parking);
         } else {
-            printf("C'est au CP qu'on apprend à écrire, recommence.\n\n");
+            printf("\nC'est au CP qu'on apprend à écrire, recommence.\n");
         }
     }
     return 0;
