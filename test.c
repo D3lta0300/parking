@@ -1,40 +1,37 @@
 #include <stdio.h>
+#include <string.h>
 
-void addOneToMatrix(int n, int l, int *matrix[][l]) {
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < l; ++j) {
-            matrix[i][j] += 1;
-        }
-    }
-}
+void printPaddedString(const char *inputString) {
+    int length = strlen(inputString);
 
-void printMatrix(int n, int l, int *matrix[][l]) {
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < l; ++j) {
-            printf("%d\t", matrix[i][j]);
-        }
-        printf("\n");
+    if (length < 2 || length > 10) {
+        printf("Input string must be between 2 and 10 characters long.\n");
+        return;
     }
+
+    printf("Original String: %s||\n", inputString);
+
+    // Calculate the number of spaces needed for padding
+    int spacesNeeded = 10 - length;
+
+    // Print the padded string
+    printf("Padded String: ");
+    printf("%s", inputString);
+    
+    for (int i = 0; i < spacesNeeded; ++i) {
+        printf(" ");
+    }
+
+    printf("||\n");
 }
 
 int main() {
     // Example usage
-    int n = 3; // Number of rows
-    int l = 4; // Number of columns
-
-    int myMatrix[3][4] = {
-        {1, 2, 3, 4},
-        {5, 6, 7, 8},
-        {9, 10, 11, 12}
-    };
-
-    printf("Original Matrix:\n");
-    printMatrix(n, l, myMatrix);
-
-    addOneToMatrix(n, l, myMatrix);
-
-    printf("\nMatrix after adding one to each element:\n");
-    printMatrix(n, l, myMatrix);
+    char test[11] = "Hello";
+    printPaddedString(test);
+    printPaddedString("Hi");
+    printPaddedString("1234567890");
+    printPaddedString("Short");
 
     return 0;
 }

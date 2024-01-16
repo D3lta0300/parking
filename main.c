@@ -12,13 +12,25 @@ struct Voiture{
 
 typedef struct Voiture Voiture;
 
+
+
 void condenseVoiture(Voiture voiture){
+    int length;
+    length = strlen(voiture.marque);
+    length += strlen(voiture.immatriculation);
     printf("%s : %s", voiture.marque, voiture.immatriculation);
+    for (int i = 0; i<17-length; i++){
+        printf(" ");
+    }
 }
+
+
 
 void afficheVoiture(Voiture voiture){
     printf("La %s immatriculée %s est garée place %d, étage %d", voiture.marque, voiture.immatriculation, voiture.place, voiture.etage);
 }
+
+
 
 void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *pParking){
     Voiture initialisatrice;
@@ -40,15 +52,31 @@ void initialiseParking(int nbEtage, int nbPlacesEtages, int nbVoiture, Voiture *
     }
 }
 
+
 void afficheParking(int nbEtage, int nbPlacesEtages, Voiture *pParking){
-    printf("\nAffichage en cours\n");
-    for (int i = 0;i<nbEtage;i++){
+    printf("\n\nAffichage en cours\nÉtage =");
+
+    for (int j = nbPlacesEtages; j>=1; j--){
+        printf("=======================");
+    }
+
+    for (int i = nbEtage-1;i>=0;i--){
+        printf("\n  %d   | ",i);
         for (int j = 0; j<nbPlacesEtages; j++){
             condenseVoiture(*(pParking+i*nbPlacesEtages+j));
             printf(" | ");
         }
-        printf("\n");
+        printf("\n      =");
+        for (int j = nbPlacesEtages; j>=1; j--){
+            printf("=======================");
+        }
     }
+    
+    printf("\n       ");
+    for (int j = 0; j<nbPlacesEtages; j++){
+        printf("           %d           ",j);
+    }
+    printf("\n");
 }
 
 
@@ -97,7 +125,6 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
         }
     }
 
-    
 
     printf("\nQuel est la marque de votre voiture ?");
     char marque[50];
@@ -121,9 +148,9 @@ void ajouteVoiture(int nbEtage, int nbPlacesEtages, Voiture *pParking){
 
 int main(){
     printf("Bienvenue dans mon super programme de PARKING !!!\n");
-    int nbVoiture = 4;
-    int nbEtage = 2;
-    int nbPlacesEtages = 3;
+    int nbVoiture = 9;
+    int nbEtage = 3;
+    int nbPlacesEtages = 5;
     Voiture parking[nbEtage][nbPlacesEtages];
     while (1==1) {
         printf("\nMon super parking à %d places !!! Malheureusement pour vous, %d sont déjà occupées.", nbEtage*nbPlacesEtages, nbVoiture);
@@ -140,7 +167,7 @@ int main(){
 
         if (strncmp(entrer,reponse,3)==0){
             if (nbVoiture >= nbEtage * nbPlacesEtages) {
-                printf("Désolé, mais mon super parking est plein. Revenez plus tard.\n");}
+                printf("Désolé, mais notre super parking est plein. Revenez plus tard.\n");}
             else {
                 ajouteVoiture(nbEtage, nbPlacesEtages, parking);
                 printf("\nOh non, une voiture s'ajoute dans le parking...\n\n");
